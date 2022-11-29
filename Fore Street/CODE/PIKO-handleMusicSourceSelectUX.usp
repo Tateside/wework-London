@@ -1,0 +1,156 @@
+                                                                                     	                  
+	/*
+		Dealer Name: piko.project
+		System Name:
+		System Number:
+		Programmer: piko
+		Comments:
+
+		version 0.1 - initial idea_																			  	
+	*/
+
+// ----------------------------------------------------------	
+       
+#SYMBOL_NAME "PIKO-handleMusicSourceSelectUX"
+#CATEGORY "46" "PIKO"
+
+#Help_Begin /*
+  
+ 
+  */ #Help_End
+
+#ENABLE_STACK_CHECKING    
+#PRINT_TO_trace
+#ENABLE_trace
+
+ 
+// CONSTANTs -----------------------------------------------
+     
+ #DEFAULT_VOLATILE
+ #ENABLE_STACK_CHECKING
+ #ENABLE_trace
+
+ #DEFINE_CONSTANT true 1
+ #DEFINE_CONSTANT false 0
+ #DEFINE_CONSTANT DEBUG ON
+ #DEFINE_CONSTANT pulseTime 01
+ #DEFINE_CONSTANT faderCount 10
+ #DEFINE_CONSTANT delayTime 5
+
+
+// IOs -----------------------------------------------------
+ 
+	DIGITAL_INPUT
+		_SKIP_,enable,
+		_SKIP_,TRIG_resetview,
+
+		_SKIP_,Fader_selected[faderCount];
+
+
+	ANALOG_INPUT  
+		_SKIP_,CHANGE_lastUsedFader;
+			   
+	DIGITAL_OUTPUT
+        _SKIP_,SourcePop_visible,
+		_SKIP_,_SKIP_,_SKIP_,Fader_visible[faderCount];
+
+// VARs ----------------------------------------------------
+ 
+INTEGER int_busy;
+INTEGER int_toggleState;
+
+
+// FUNCTIONs -----------------------------------------------
+		
+function setAllVisible(){
+
+integer x;
+
+	for(x = 1 to faderCount)
+	{
+		Fader_visible[x] = true;
+		DELAY(delayTime);
+	}
+	
+}
+function filterVisible(integer filter){
+
+integer x;
+
+	for(x = 1 to faderCount)
+	{
+		if (x <> filter){
+			Fader_visible[x] = false;
+			DELAY(delayTime);
+		}
+	}
+}
+	
+function setDefaultView(){
+	SourcePop_visible = false;
+	setAllVisible();
+}
+
+integer_function toggle(integer state){
+
+	// trace("-- state top ( %u )\n", state);
+	
+	if (int_toggleState = false){
+		state=true;
+		// trace("-- state if state = false ( %u )\n", state);
+	} else if (int_toggleState = true){
+		// trace("-- state if state = true ( %u )\n", state);
+		state=false;
+	}
+	// trace("-- state return ( %u )\n", state);
+	RETURN(state);
+	
+}
+
+// EVENTs --------------------------------------------------
+
+PUSH TRIG_resetview{
+	if (enable = true)
+	setDefaultView();
+} 
+
+PUSH Fader_selected{
+
+	INTEGER getIndex;  
+	getIndex = GetLastModifiedArrayIndex();
+
+	if (enable = true){
+		
+		// trace("enable ( %u )  \n ",enable );
+		// trace("getIndex = ( %u )  \n ",getIndex );
+		// trace("Fader_selected[getIndex] = ( %u )  \n ",Fader_selected[getIndex] );
+
+		int_toggleState = toggle(Fader_selected[getIndex]);
+		// trace("int_toggleState ( %u )  \n ",int_toggleState );
+
+		if (int_toggleState = false){
+			// trace("getIndex = false   \n " );
+
+			setDefaultView();
+		} 
+		else if (int_toggleState  = true){
+
+			// trace("getIndex = true  \n " );
+			filterVisible(getIndex);
+			SourcePop_visible = true;
+		}
+	}
+
+}
+
+CHANGE CHANGE_lastUsedFader{}
+CHANGE enable{}
+
+// MAIN ----------------------------------------------------
+  
+Function Main()
+{	
+	WaitForInitializationComplete();
+	setDefaultView();
+}
+ 

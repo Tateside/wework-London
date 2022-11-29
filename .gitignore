@@ -1,0 +1,17 @@
+*.asv
+*.zip
+*.lpz
+*.hash
+*.sig
+*.sm2
+*.smft
+*.sgd
+*.hash
+*.ced
+
+/DLLs
+/code/SPlsWork
+/NotGITed
+/Documentation
+/_arch
+/Fore Street/CODE/SPlsWork

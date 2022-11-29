@@ -1,0 +1,142 @@
+                                                                                     	                  
+	/*
+		Dealer Name: piko.project
+		System Name:
+		System Number:
+		Programmer: piko
+		Comments:
+
+		version 0.1 - initial idea																			  	
+	*/
+
+// ----------------------------------------------------------	
+       
+#SYMBOL_NAME "PIKO-handleSourceFBtxt"
+#CATEGORY "46" "PIKO"
+
+#Help_Begin /*
+  
+	for background music multi-fader + multi tab or similar
+	
+	passes string of active source, filtered by Enable signal (for tab select) 
+ 
+  */ #Help_End
+
+#ENABLE_STACK_CHECKING    
+#PRINT_TO_TRACE
+#ENABLE_TRACE
+
+ 
+// CONSTANTs -----------------------------------------------
+     
+ #DEFAULT_VOLATILE
+ #ENABLE_STACK_CHECKING
+ #ENABLE_TRACE
+
+ #DEFINE_CONSTANT true 1
+ #DEFINE_CONSTANT false 0
+ #DEFINE_CONSTANT DEBUG ON
+ #DEFINE_CONSTANT pulseTime 01
+
+// IOs -----------------------------------------------------
+ 
+   	DIGITAL_INPUT
+	_SKIP_,enable;
+                  
+	STRING_INPUT
+        _SKIP_,faderXX_sourceInputName_empty[100],
+
+		_SKIP_,fader1_sourceInputName[6][100],	
+		_SKIP_,fader2_sourceInputName[6][100],
+		_SKIP_,fader3_sourceInputName[6][100],
+		_SKIP_,fader4_sourceInputName[6][100],
+		_SKIP_,fader5_sourceInputName[6][100],
+		_SKIP_,fader6_sourceInputName[6][100],
+		_SKIP_,fader7_sourceInputName[6][100],
+		_SKIP_,fader8_sourceInputName[6][100],
+		_SKIP_,fader9_sourceInputName[6][100];
+	
+	ANALOG_INPUT  
+		_SKIP_,inputSelected_fader[9];
+		
+		   
+	STRING_OUTPUT
+		_SKIP_,_SKIP_,_SKIP_,sourceFB_fader[9];
+
+// VARs ----------------------------------------------------
+ integer getLastFaderChanged;
+
+// FUNCTIONs -----------------------------------------------
+
+FUNCTION handleSourceText(integer changeFader)
+{
+	if (enable = true){
+
+		if (changeFader = 1 && inputSelected_fader[1] != 0)			sourceFB_fader[changeFader] = fader1_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 2 && inputSelected_fader[2] != 0)	sourceFB_fader[changeFader] = fader2_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 3 && inputSelected_fader[3] != 0)	sourceFB_fader[changeFader] = fader3_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 4 && inputSelected_fader[4] != 0)	sourceFB_fader[changeFader] = fader4_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 5 && inputSelected_fader[5] != 0)	sourceFB_fader[changeFader] = fader5_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 6 && inputSelected_fader[6] != 0)	sourceFB_fader[changeFader] = fader6_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 7 && inputSelected_fader[7] != 0)	sourceFB_fader[changeFader] = fader7_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 8 && inputSelected_fader[8] != 0)	sourceFB_fader[changeFader] = fader8_sourceInputName[inputSelected_fader[changeFader]];
+		else if (changeFader = 9 && inputSelected_fader[9] != 0)	sourceFB_fader[changeFader] = fader9_sourceInputName[inputSelected_fader[changeFader]];
+
+			// if inputselcted is zero
+		if (changeFader = 1 && inputSelected_fader[1] = 0)			sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 2 && inputSelected_fader[2] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 3 && inputSelected_fader[3] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 4 && inputSelected_fader[4] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 5 && inputSelected_fader[5] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 6 && inputSelected_fader[6] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 7 && inputSelected_fader[7] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 8 && inputSelected_fader[8] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		else if (changeFader = 9 && inputSelected_fader[9] = 0)		sourceFB_fader[changeFader] = faderXX_sourceInputName_empty;
+		
+		
+	}
+}	
+																						  
+// EVENTs --------------------------------------------------
+
+CHANGE enable{
+
+	integer x;
+	if (enable = true)		// to "render" the view on tab change 
+	{	
+		if (inputSelected_fader[1] != 0) 	sourceFB_fader[1] = fader1_sourceInputName[inputSelected_fader[1]];
+		if (inputSelected_fader[2] != 0) 	sourceFB_fader[2] = fader1_sourceInputName[inputSelected_fader[2]];
+		if (inputSelected_fader[3] != 0) 	sourceFB_fader[3] = fader1_sourceInputName[inputSelected_fader[3]];
+		if (inputSelected_fader[4] != 0) 	sourceFB_fader[4] = fader1_sourceInputName[inputSelected_fader[4]];
+		if (inputSelected_fader[5] != 0) 	sourceFB_fader[5] = fader1_sourceInputName[inputSelected_fader[5]];
+		if (inputSelected_fader[6] != 0) 	sourceFB_fader[6] = fader1_sourceInputName[inputSelected_fader[6]];
+		if (inputSelected_fader[7] != 0) 	sourceFB_fader[7] = fader1_sourceInputName[inputSelected_fader[7]];
+		if (inputSelected_fader[8] != 0) 	sourceFB_fader[8] = fader1_sourceInputName[inputSelected_fader[8]];
+		if (inputSelected_fader[9] != 0) 	sourceFB_fader[9] = fader1_sourceInputName[inputSelected_fader[9]];
+
+		if (inputSelected_fader[1] = 0) 	sourceFB_fader[1] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[2] = 0) 	sourceFB_fader[2] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[3] = 0) 	sourceFB_fader[3] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[4] = 0) 	sourceFB_fader[4] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[5] = 0) 	sourceFB_fader[5] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[6] = 0) 	sourceFB_fader[6] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[7] = 0) 	sourceFB_fader[7] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[8] = 0) 	sourceFB_fader[8] = faderXX_sourceInputName_empty;
+		if (inputSelected_fader[9] = 0) 	sourceFB_fader[9] = faderXX_sourceInputName_empty;
+
+	}
+}
+CHANGE inputSelected_fader{
+
+	getLastFaderChanged = GetLastModifiedArrayIndex();
+	//trace("getLastFaderChange = ( %u )  \n ", getLastFaderChanged);
+	handleSourceText(getLastFaderChanged);
+}
+ 
+// MAIN ----------------------------------------------------
+  
+Function Main()
+{	
+	WaitForInitializationComplete();
+}
+ 

@@ -1,0 +1,13 @@
+ProgramFile: WeWork Moorgate V103.smw
+CompiledOn: 10/18/2016 12:51 PM
+Type: User
+ProgramVersion: 
+Programmer: Dan Fattorini
+SourceEnvironment: SIMPL Windows v4.03.24
+MinimumCUZ: 
+CompilerRev: 3.03
+SYMLIBRev: 1010
+IOLIBRev: 1010
+IOPCFGRev: 4.1.75
+CrestronDBRev: 58.05.002.00
+ProgramBootDir: \simpl\app01
