@@ -6,6 +6,7 @@
 *.sgd
 *.hash
 *.ced
+*.sgd2
 
 /DLLs
 /code/SPlsWork
