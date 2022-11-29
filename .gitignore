@@ -1,8 +1,6 @@
 *.asv
 *.zip
-*.lpz
 *.hash
-*.sig
 *.sm2
 *.smft
 *.sgd
